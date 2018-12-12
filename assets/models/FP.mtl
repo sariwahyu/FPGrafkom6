@@ -1,5 +1,5 @@
 # Blender MTL File: 'FP.blend'
-# Material Count: 4
+# Material Count: 8
 
 newmtl Material
 Ns 96.078431
@@ -12,6 +12,69 @@ d 1.000000
 illum 2
 map_Kd wooden-plank-textured-background-material_53876-31377.jpg
 
+newmtl Material.001
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd texture-background_1404-99.jpg
+
+newmtl Material.003
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.058580 0.058580 0.058580
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd old-cement-wall-texture_1149-1280.jpg
+
+newmtl Material.003_tile.jpg
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.058580 0.058580 0.058580
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd tile.jpg
+
+newmtl Material.004
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.023274 0.023274 0.023274
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Material.005
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.095409 0.042338 0.024252
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Material.008
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.095409 0.042338 0.024252
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
 newmtl None
 Ns 0
 Ka 0.000000 0.000000 0.000000
@@ -19,21 +82,3 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-
-newmtl None_1500-concrete-cement-texture.jpg
-Ns 0
-Ka 0.000000 0.000000 0.000000
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
-illum 2
-map_Kd C:\Documents\Pictures\grafkom proposal\1500-concrete-cement-texture.jpg
-
-newmtl None_grey-ceramic-floor-tile-gallery-tile-flooring-design-ideas-fres
-Ns 0
-Ka 0.000000 0.000000 0.000000
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
-illum 2
-map_Kd C:\Documents\Pictures\grafkom proposal\grey-ceramic-floor-tile-gallery-tile-flooring-design-ideas-fresh-grey-ceramic-tiles-texture-of-grey-ceramic-tiles-texture.jpg
