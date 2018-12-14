@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Musholla TC</title>
+    <script type="text/javascript" src="../libs/three.js"></script>
+    <script type="text/javascript" src="../libs/OBJLoader.js"></script>
+    <script type="text/javascript" src="../libs/MTLLoader.js"></script>
+    <script type="text/javascript" src="../libs/OBJMTLLoader.js"></script>
+    <script type="text/javascript" src="../libs/OrbitControls.js"></script>
+
+    <script type="text/javascript" src="../libs/stats.js"></script>
+    <script type="text/javascript" src="../libs/dat.gui.js"></script>
+    <style>
+        body {
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div id="Stats-output">
+</div>
+<!-- Div which will hold the Output -->
+<div id="WebGL-output">
+</div>
+
+<!-- Javascript code that runs our Three.js examples -->
+<script type="text/javascript">
+    // once everything is loaded, we run our Three.js stuff.
+    function init() {
+        var stats = initStats();
+        // create a scene, that will hold all our elements such as objects, cameras and lights.
+        var scene = new THREE.Scene();
+        // create a camera, which defines where we're looking at.
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        //rotation y axis
+        kamera = new THREE.OrbitControls( camera );
+
+        kamera.maxPolarAngle = Math.PI/2;
+        kamera.minPolarAngle = Math.PI/2.5;
+        kamera.autoRotate = false;
+        kamera.autoRotateSpeed = 5.0;
+
+        // create a render and set the size
+        var webGLRenderer = new THREE.WebGLRenderer();
+        webGLRenderer.setClearColor(new THREE.Color(0x232323, 1.0));
+        webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        webGLRenderer.shadowMapEnabled = true;
+        webGLRenderer.shadowMapType = THREE.PCFSoftShadowMap;
+
+        // position and point the camera to the center of the scene
+        camera.position.set( 0, 90 , -250 );
+        camera.lookAt(new THREE.Vector3(1, 0, 0));
+
+        // hemisphere light
+        var hemis = new THREE.HemisphereLight(0x1a1835, 0x1e4144, 0.8);
+        hemis.color = new THREE.Color("rgb(196, 197, 180)");
+        hemis.position.set(0, 400, -120);    
+        scene.add(hemis);
+
+        // var hemisphereLightHelper = new THREE.HemisphereLightHelper(hemis, 100);
+        // scene.add(hemisphereLightHelper);
+
+
+		var spotLight = new THREE.SpotLight(0xffe470);
+        spotLight.position.set(-15,78, 40);
+        spotLight.target.position.set(-15, 10, 40);
+        spotLight.intensity = 4;
+        spotLight.castShadow = true;
+        spotLight.angle = Math.PI / 3;
+		spotLight.penumbra = 0.05;
+		spotLight.decay = 2;
+		spotLight.distance = 200;
+
+        scene.add(spotLight);
+        scene.add(spotLight.target);
+
+
+        spotLight.shadowMapSizeWidth = 512;  // default
+        spotLight.shadowMapSizeHeight = 512; // default
+        spotLight.shadowCameraNear = 0.5;       // default
+        spotLight.shadowCameraFar = 500;  // default
+
+  		// var directionalLightHelper = new THREE.DirectionalLightHelper(spotLight, 10);
+    //     scene.add(directionalLightHelper);
+
+
+        var spotLight1 = new THREE.SpotLight(0x0a64ad);
+        spotLight1.position.set(150, 250, -30);
+        spotLight1.target.position.set(10, 40, 30);
+        spotLight1.intensity = 0;
+        spotLight1.castShadow = true;
+        spotLight1.angle = Math.PI / 4;
+        spotLight1.penumbra = 0.4;
+        spotLight1.decay = 2;
+        spotLight1.distance = 350;
+        scene.add(spotLight1);
+        scene.add(spotLight1.target);
+
+        // var directionalLightHelper1 = new THREE.DirectionalLightHelper(spotLight1, 100);
+        // scene.add(directionalLightHelper1);
+
+
+
+
+
+        document.getElementById("WebGL-output").appendChild(webGLRenderer.domElement);
+        // call the render functionR
+        var step = 0;
+        var objek;
+        var loader = new THREE.OBJMTLLoader();
+        // setup the control gui
+
+        loader.load('../models/FP1.obj', '../models/FP1.mtl', function (object) {
+            object.scale.set(10, 10, 10);
+            objek = object;
+            object.position.set(0, 0, 0);
+            object.receiveShadow = true;
+            scene.add(objek);
+            object.rotation.y = 0;
+        });
+
+         var gui = new dat.GUI();
+        var params = {'light color 1': spotLight.color.getHex(), 
+                'light color 2': spotLight1.color.getHex(), 
+					intensity: spotLight.intensity,
+					distance: spotLight.distance,
+					angle: spotLight.angle,
+
+                'DayMode': function() {
+                    hemis.color = new THREE.Color("rgb(196, 197, 180)");
+                    spotLight.intensity = 3;
+                    spotLight1.intensity = 0;
+                    
+                },
+                'NightMode' : function() {
+                    hemis.color = new THREE.Color("rgb(0, 0, 0)");
+                    spotLight.intensity = 5;
+                    spotLight1.intensity = 1;
+                    
+                }};
+
+            gui.add(kamera, 'autoRotateSpeed', 0, 20);
+            gui.add(kamera, 'autoRotate', true);
+            gui.add(spotLight,'intensity', 0, 5);
+            gui.add(spotLight1,'intensity', 0, 2);
+            gui.addColor( params, 'light color 1' ).onChange( function ( val ) {
+                        spotLight.color.setHex( val );
+                        render();
+                    } );
+            gui.addColor( params, 'light color 2' ).onChange( function ( val ) {
+                        spotLight1.color.setHex( val );
+                        render();
+                    } );
+
+            gui.add( params, 'angle', 0, Math.PI / 3 ).onChange( function ( val ) {
+					spotLight.angle = val;
+					render();
+			} );
+
+			gui.add( params, 'distance', 50, 200 ).onChange( function ( val ) {
+					spotLight.distance = val;
+					render();
+			} );
+
+
+            gui.add(params, 'DayMode', true);
+            gui.add(params, 'NightMode', true);
+
+        render();
+
+
+        function render() {
+            stats.update();
+
+            // render using requestAnimationFrame
+            requestAnimationFrame(render);
+            kamera.update()
+            webGLRenderer.render(scene, camera);
+        }
+        function initStats() {
+            var stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
+            // Align top-left
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.left = '0px';
+            stats.domElement.style.top = '0px';
+            document.getElementById("Stats-output").appendChild(stats.domElement);
+            return stats;
+        }
+    }
+    window.onload = init;
+</script>
+</body>
+</html>
